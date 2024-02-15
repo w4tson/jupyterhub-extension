@@ -3,29 +3,39 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
+import {
+  INotebookTracker,
+  NotebookActions
+} from '@jupyterlab/notebook';
+
+import { ICommandPalette } from '@jupyterlab/apputils';
+
+import { Cell, ICellModel } from '@jupyterlab/cells';
 
 /**
  * Initialization data for the myextension extension.
  */
+/**
+ * Initialization data for the jupyterlab_apod extension.
+ */
 const plugin: JupyterFrontEndPlugin<void> = {
-  id: 'myextension:plugin',
-  description: 'A JupyterLab extension.',
+  id: 'jupyterlab-apod',
+  description:
+    'Show a random NASA Astronomy Picture of the Day in a JupyterLab panel.',
   autoStart: true,
-  optional: [ISettingRegistry],
-  activate: (app: JupyterFrontEnd, settingRegistry: ISettingRegistry | null) => {
-    console.log('JupyterLab extension myextension is activated!');
+  requires: [ICommandPalette],
+  activate: (app: JupyterFrontEnd, tracker: INotebookTracker) => {
+    console.log('JupyterLab extension jupyterlab_apod is activated! too right');
+    NotebookActions.executionScheduled.connect((_, args) => {
+      // const notebook = args['notebook'];
 
-    if (settingRegistry) {
-      settingRegistry
-        .load(plugin.id)
-        .then(settings => {
-          console.log('myextension settings loaded:', settings.composite);
-        })
-        .catch(reason => {
-          console.error('Failed to load settings for myextension.', reason);
-        });
-    }
+      const cell: Cell<ICellModel> = args['cell'];
+      // console.log(cell, notebook);
+      // console.log(cell.model.executedCode);
+      // Additional logic here...
+      console.log(cell.model.toJSON());
+      console.log(cell.model.sharedModel.source);
+    });
   }
 };
 
