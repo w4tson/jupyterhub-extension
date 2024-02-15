@@ -3,6 +3,8 @@
 [![Github Actions Status](/workflows/Build/badge.svg)](/actions/workflows/build.yml)
 A JupyterLab extension.
 
+Taken from the tutorial here : https://jupyterlab.readthedocs.io/en/stable/extension/extension_tutorial.html#packaging-your-extension
+
 ## Requirements
 
 - JupyterLab >= 4.0.0
